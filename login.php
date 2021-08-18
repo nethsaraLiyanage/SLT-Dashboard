@@ -10,6 +10,7 @@
       
       $sql = "SELECT id FROM user WHERE username = '$myusername' and password = '$mypassword'";
       $result = mysqli_query($db,$sql);
+      
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
       $active = $row['active'];
       
@@ -19,7 +20,7 @@
 		
       if($count == 1) {
         //  session_register("myusername");
-         $_SESSION['login_user'] = $myusername;
+         $_SESSION['login_user'] = $row['id'] ;
          
          header("location: dashboard.php");
       }else {
