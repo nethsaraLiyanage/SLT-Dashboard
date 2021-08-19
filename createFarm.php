@@ -44,6 +44,14 @@
         margin:3%;
         color: black;
     }
+    .frminput{
+      border: 1px solid black;
+      color: black;
+      width:100%;
+    }
+    .frmlbl{
+      color: black;
+    }
     
 </style>
 
@@ -61,7 +69,7 @@
 
         <h5 style="margin-left: 25%; color: white;">
           <?php
-            echo 'user = ',$_SESSION['login_user']
+            echo $_SESSION['login_username']
           ?>
         </h5>
       </div>
@@ -97,7 +105,7 @@
           <div class="navbar-wrapper">
 
 
-              <form id="mainForm" name="mainForm">
+              <!-- <form id="mainForm" name="mainForm">
                 <div style="display:flex;">
                   <div class="select" tabindex="1" style="margin-left:5%;">
                       <input class="selectopt" name="city" type="radio" id="opt1" value="lc_001" checked>
@@ -128,7 +136,7 @@
                       <label for="opt5" class="option">Colombo</label>
                   </div>
                 </div>
-              </form>
+              </form> -->
           </div>
 
 
@@ -182,13 +190,9 @@
                 <h3>ADD A NEW FARM</h3>
                 <hr>
                 <form>
-                    <label >Hatton</label>
-                    <input type="text">
-                    <label >Hatton</label>
-                    <input type="text">
-                    <label >Hatton</label>
-                    <input type="text">
-                
+                    <label for="" class="frmlbl">City</label>
+                    <input type="text" name="city" class="frminput">
+
                 </form>
             </div>
 

@@ -8,7 +8,7 @@
       $myusername = mysqli_real_escape_string($db,$_POST['username']);
       $mypassword = mysqli_real_escape_string($db,$_POST['password']); 
       
-      $sql = "SELECT id FROM user WHERE username = '$myusername' and password = '$mypassword'";
+      $sql = "SELECT id,fullName FROM user WHERE username = '$myusername' and password = '$mypassword'";
       $result = mysqli_query($db,$sql);
       
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
@@ -21,6 +21,8 @@
       if($count == 1) {
         //  session_register("myusername");
          $_SESSION['login_user'] = $row['id'] ;
+         $_SESSION['login_username'] = $row['fullName'] ;
+
          
          header("location: dashboard.php");
       }else {
@@ -76,31 +78,33 @@
                         </div> -->
                     </div>
                 </form>
-                <div class="sign-up-htm">
-                    <div class="group">
-                        <label for="name" class="label">Full Name</label>
-                        <input id="name" type="text" class="input">
+                <form action="register.php" method="post" enctype="multipart/form-data">
+                    <div class="sign-up-htm">
+                        <div class="group">
+                            <!-- <label for="name" class="label">Full Name</label> -->
+                            <input id="name" name="fullName" type="text" class="input" placeholder="Full Name">
+                        </div>
+                        <div class="group">
+                            <!-- <label for="user" class="label">Username</label> -->
+                            <input id="user" name="username" type="text" class="input" placeholder="Username">
+                        </div>
+                        <div class="group">
+                            <!-- <label for="pass" class="label">Password</label> -->
+                            <input id="pass" name="password" type="password" class="input" data-type="password" placeholder="Password">
+                        </div>
+                        <div class="group">
+                            <!-- <label for="email" class="label">Email Address</label> -->
+                            <input id="email" name="email" type="email" class="input" placeholder="Email Address">
+                        </div>
+                        <div class="group">
+                            <input type="submit" class="button" value="Sign Up">
+                        </div>
+                        <!-- <div class="hr"></div>
+                        <div class="foot-lnk">
+                            <label for="tab-1">Already Member?</a>
+                        </div> -->
                     </div>
-                    <div class="group">
-                        <label for="user" class="label">Username</label>
-                        <input id="user" type="text" class="input">
-                    </div>
-                    <div class="group">
-                        <label for="pass" class="label">Password</label>
-                        <input id="pass" type="password" class="input" data-type="password">
-                    </div>
-                    <div class="group">
-                        <label for="email" class="label">Email Address</label>
-                        <input id="email" type="text" class="input">
-                    </div>
-                    <div class="group">
-                        <input type="submit" class="button" value="Sign Up">
-                    </div>
-                    <!-- <div class="hr"></div>
-                    <div class="foot-lnk">
-                        <label for="tab-1">Already Member?</a>
-                    </div> -->
-                </div>
+                </form>
             </div>
         </div>
     </div>

@@ -1,5 +1,7 @@
 <?php
-   include('session.php');
+    include('session.php');
+    // include_once 'config.php';
+    // $result = mysqli_query($db,"SELECT * FROM user WHERE userID = 'user001'");
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -36,6 +38,24 @@
 
 <body class="dark-edition" onload="MQTTconnect()">
 
+<style>
+  .selopt{
+    background-color: #384F66;
+    width: 90%;
+    border: none;
+    padding: 4%;
+    color: #aaaaaa;
+  }
+  .srchbtn{
+    background-color: #E36464;
+    width: 40%;
+    margin-top: 15px;
+    padding: 8px;
+    border: none;
+    color: #ffffff;
+  }
+</style>
+
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="assets/img/sidebar-2.jpg">
       <!--
@@ -50,7 +70,7 @@
 
         <h5 style="margin-left: 25%; color: white;">
           <?php
-            echo 'user = ',$_SESSION['login_user']
+            echo $_SESSION['login_username']
           ?>
         </h5>
       </div>
@@ -88,22 +108,65 @@
 
               <form id="mainForm" name="mainForm">
                 <div style="display:flex;">
+      
                   <div class="select" tabindex="1" style="margin-left:5%;">
-                      <input class="selectopt" name="city" type="radio" id="opt1" value="lc_001" checked>
+                      <!-- <input class="selectopt" name="city" type="radio" id="opt1" value="lc_001" checked>
                       <label for="opt1" class="option">
                         Location
                       </label>
-                      <input class="selectopt" name="city" type="radio" id="opt2" value="lc_002">
-                      <label for="opt2" class="option">Hatton</label>
-                      <input class="selectopt" name="city" type="radio" id="opt3" value="lc_003">
+                       -->
+                       
+                      <select name="city" id="location" value="" class="selopt">
+                        <option value="">Select Location</option>
+                        <?php
+
+                          include "config.php"; // Using database connection file here
+
+                          $records = mysqli_query($db,"SELECT * FROM location WHERE userID = 'user001'"); // fetch data from database
+
+                          while($data = mysqli_fetch_array($records))
+                          {
+                        ?> 
+                        <option value="<?php echo $data['locID']; ?>"><?php echo $data['city']; ?></option>
+                        <!-- <option value="opel">Opel</option>
+                        <option value="audi">Audi</option> -->
+                        <?php
+                          }
+                        ?>
+                      </select>
+
+                      <?php mysqli_close($db); // Close connection ?>
+
+                        <!-- <input class="selectopt" name="city" type="radio" id="opt2" value="lc_002">
+                        <label for="opt2" class="option">Hatton</label> -->
+
+                      <!-- <input class="selectopt" name="city" type="radio" id="opt3" value="lc_003">
                       <label for="opt3" class="option">Nuwara Eliya</label>
                       <input class="selectopt" name="city" type="radio" id="opt4" value="lc_004">
                       <label for="opt4" class="option">Jaffna</label>
                       <input class="selectopt" name="city" type="radio" id="opt5" value="lc_005">
-                      <label for="opt5" class="option">Colombo</label>
+                      <label for="opt5" class="option">Colombo</label> -->
                   </div>
-                  <div class="select" tabindex="1" style="margin-left:10%;">
-                      <input class="selectopt" name="city" type="radio" id="opt1" value="lc_001" checked>
+                  <div class="select" tabindex="1" style="margin-left:0%;">
+                      <select name="farm" id="farm" value="Farm" class="selopt">
+                        <option value="">Select Farm</option>
+                        <?php
+
+                          include "config.php"; // Using database connection file here
+
+                          $records2 = mysqli_query($db,"SELECT * FROM farm WHERE userID = 'user001'"); // fetch data from database
+
+                          while($data2 = mysqli_fetch_array($records2))
+                          {
+                        ?> 
+                        <option value="fm_00"><?php echo $data2['farmId']; ?></option>
+                        <!-- <option value="opel">Opel</option>
+                        <option value="audi">Audi</option> -->
+                        <?php
+                          }
+                        ?>
+                      </select>
+                      <!-- <input class="selectopt" name="city" type="radio" id="opt1" value="lc_001" checked>
                       <label for="opt1" class="option">
                         Farm
                       </label>
@@ -114,8 +177,10 @@
                       <input class="selectopt" name="city" type="radio" id="opt4" value="lc_004">
                       <label for="opt4" class="option">Jaffna</label>
                       <input class="selectopt" name="city" type="radio" id="opt5" value="lc_005">
-                      <label for="opt5" class="option">Colombo</label>
+                      <label for="opt5" class="option">Colombo</label> -->
                   </div>
+
+                  <button class="srchbtn">Check Details</button>
                 </div>
               </form>
           </div>
@@ -174,8 +239,7 @@
                     <i class="material-icons">thermostat</i>
                   </div>
                   <p class="card-category">Temprature</p>
-                  <h3 class="card-title" id="temp">31.0
-                    <small>C</small>
+                  <h3 class="card-title"><span id="temp"></span><small>&nbsp; c</small>
                   </h3>
                 </div>
                 <div class="center">
@@ -183,7 +247,7 @@
                 </div>
                 <div class="card-footer">
                   <div class="stats">
-                    <i class="material-icons">functions</i> Average : <p id=""> 30.0</p>
+                    <i class="material-icons">functions</i> Average :&nbsp; <p id="atemp"> 30.0</p><small>c</small>
                   </div>
                 </div>
               </div>
@@ -195,14 +259,14 @@
                     <i class="material-icons">water_drop</i>
                   </div>
                   <p class="card-category">Moisture</p>
-                  <h3 class="card-title">85.0</h3>
+                  <h3 class="card-title"><span id="mois"></span><small>g/m<sup>3</sup></small></h3>
                 </div>
                  <div class="center">
                     <div id="task-mois" class="chart-circle "></div>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
-                    <i class="material-icons">functions</i> Average : <p> 95.0</p>
+                    <i class="material-icons">functions</i> Average :&nbsp; <p id="amois"> 95.0</p><small>g/m<sup>3</sup></small>
                   </div>
                 </div>
               </div>
@@ -214,14 +278,14 @@
                     <i class="material-icons">wb_sunny</i>
                   </div>
                   <p class="card-category">Light (Lux)</p>
-                  <h3 class="card-title">175.0</h3>
+                  <h3 class="card-title"><span id="lux"></span><small>lx</small></h3>
                 </div>
                <div class="center">
                     <div id="task-lux" class="chart-circle "></div>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
-                   <i class="material-icons">functions</i> Average : <p> 200.0</p>
+                   <i class="material-icons">functions</i> Average :&nbsp; <p id="alux"> 200.0</p><small>lx</small>
                   </div>
                 </div>
               </div>
@@ -233,14 +297,14 @@
                     <i class="material-icons">water_drop</i>
                   </div>
                   <p class="card-category">Humidity</p>
-                  <h3 class="card-title">95.0</h3>
+                  <h3 class="card-title" ><span id="hum"></span><small>kg<sup>2</sup></small></h3>
                 </div>
                 <div class="center">
                     <div id="task-hum" class="chart-circle "></div>
                 </div>
                 <div class="card-footer">  
                   <div class="stats">
-                    <i class="material-icons">functions</i> Average : <p> 7.0</p>
+                    <i class="material-icons">functions</i> Average :&nbsp; <p id="ahum"> 7.0</p><small>kg<sup>2</sup></small>
                   </div>
                 </div>
               </div>
