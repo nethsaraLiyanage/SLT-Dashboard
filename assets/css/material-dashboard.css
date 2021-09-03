@@ -59,6 +59,7 @@ body {
   color: #212529;
   text-align: left;
   background-color: #fafafa;
+  
 }
 
 [tabindex="-1"]:focus {
@@ -16881,6 +16882,7 @@ body {
   background-color: #eee;
   color: #3C4858;
   font-weight: 300;
+  overflow: hidden;
 }
 
 legend {
@@ -18229,20 +18231,20 @@ Copyright (c) 2015 Daniel Eden
 .ps-container {
   -ms-touch-action: auto;
   touch-action: auto;
-  overflow: hidden !important;
+  overflow: hidden ;
   -ms-overflow-style: none;
 }
 
 @supports (-ms-overflow-style: none) {
   .ps-container {
-    overflow: auto !important;
+    overflow: hidden ;
   }
 }
 
 @media screen and (-ms-high-contrast: active),
 (-ms-high-contrast: none) {
   .ps-container {
-    overflow: auto !important;
+    overflow:  hidden ;
   }
 }
 

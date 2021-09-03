@@ -4,7 +4,7 @@
     var host="broker.hivemq.com";
     // var host="124.43.130.94";
     var port=8000;
-    // var port=8000;
+    // var port=1883;
 
     var uname    = "inoc";
     var pword    = "noc_123";
@@ -21,26 +21,29 @@
     var atemp = 0;
     var ahum = 0;
     var alux = 0;
-    var us_location='lc_001';
-    var us_farm='fm_00';
-    document.mainForm.onclick = function(){
-        us_location=document.mainForm.city.value;
-        // document.getElementById("lc_id").innerHTML=us_location;
-    }
+    var us_location=[80.41251167765263, 6.989156875109475];
+    var err_distance=0.0001; // 0.001==100m
+//     document.mainForm.onclick = function(){
+//     us_location=document.mainForm.city.value;
+//     document.getElementById("lc_id").innerHTML=us_location;
+// }
+        
+
+
+    
 
     
     function onConnectionLost(){
-        console.log("connection lost");
-        document.getElementById("status").innerHTML = "Connection Lost";
-        document.getElementById("messages").innerHTML ="Connection Lost";
-        connected_flag=0;
+    console.log("connection lost");
+    document.getElementById("status").innerHTML = "Connection Lost";
+    document.getElementById("messages").innerHTML ="Connection Lost";
+    connected_flag=0;
     }
     function onFailure(message) {
         console.log("Failed");
         document.getElementById("messages").innerHTML = "Connection Failed- Retrying";
         setTimeout(MQTTconnect, reconnectTimeout);
-    }
-    
+        }
     function onMessageArrived(r_message){
         out_msg="Message received "+r_message.payloadString+"<br>";
         out_msg=out_msg+"Message received Topic "+r_message.destinationName;
@@ -50,133 +53,121 @@
         var topic=r_message.destinationName;
         if(topic=="slt_agro21/data/id_0001")
         {
-            const obj = JSON.parse(r_message.payloadString);
-            // us_location='lc_001';
-            // us_farm='fm_00';
+        const obj = JSON.parse(r_message.payloadString);
+        console.log(obj.location);
+        console.log(us_location);
 
-            if (us_location in obj)
-            {
-                console.log("sdad 11")
-                var a = "mois=obj."+us_location+"."+us_farm+".mois";
-                var b = "temp=obj."+us_location+"."+us_farm+".temp";
-                var c = "hum=obj."+us_location+"."+us_farm+".hum";
-                var d = "lux=obj."+us_location+"."+us_farm+".lux";
-                eval(a);
-                eval(b);
-                eval(c);
-                eval(d);
+        if (0.001>Math.abs((us_location[0]-obj.location[0])) && 0.001>Math.abs((us_location[1]-obj.location[1])))
+        {  
+        console.log("ok");   
+        mois=obj.mois;
+        temp=obj.temp;
+        hum=obj.hum;
+        lux=obj.lux;
 
-                console.log("sdad 22")
-                document.getElementById("mois").innerHTML =mois ;
-                document.getElementById("temp").innerHTML =temp ;
-                document.getElementById("hum").innerHTML =hum ;
-                document.getElementById("lux").innerHTML =lux;
-            
+        document.getElementById("mois").innerHTML =mois ;
+        document.getElementById("temp").innerHTML =temp ;
+        document.getElementById("hum").innerHTML =hum ;
+        document.getElementById("lux").innerHTML =lux;
+        
 
-                console.log("sdad 33")
-                if (mois!=mois2) {
-                    Circles.create({
-                        id:           'task-mois',
-                        radius:       75,
-                        value:        mois,
-                        tstart:       mois2,
-                        maxValue:     100,
-                        width:        7,
-                        text:         function(value){return value + '';},
-                        colors:       ['#eee', '#6fd67a'],
-                        duration:     400,
-                        wrpClass:     'circles-wrp',
-                        textClass:    'circles-text',
-                        styleWrapper: true,
-                        styleText:    true
-                    })
-                    mois2=mois;
+        if (mois!=mois2) {
+            Circles.create({
+                    id:           'task-mois',
+                    radius:       75,
+                    value:        mois,
+                    tstart:       mois2,
+                    maxValue:     100,
+                    width:        7,
+                    text:         function(value){return value + '';},
+                    colors:       ['#eee', '#6fd67a'],
+                    duration:     400,
+                    wrpClass:     'circles-wrp',
+                    textClass:    'circles-text',
+                    styleWrapper: true,
+                    styleText:    true
+                })
+                mois2=mois;
                 }
-                if (temp!=temp2) {
-                    Circles.create({
-                        id:           'task-temp',
-                        radius:       75,
-                        value:        temp,
-                        tstart:       temp2,
-                        maxValue:     60,
-                        width:        7,
-                        text:         function(value){return value + '';},
-                        colors:       ['#eee', '#6fd67a'],
-                        duration:     400,
-                        wrpClass:     'circles-wrp',
-                        textClass:    'circles-text',
-                        styleWrapper: true,
-                        styleText:    true
-                    })
-                    temp2=temp;
+        if (temp!=temp2) {
+            Circles.create({
+                    id:           'task-temp',
+                    radius:       75,
+                    value:        temp,
+                    tstart:       temp2,
+                    maxValue:     60,
+                    width:        7,
+                    text:         function(value){return value + '';},
+                    colors:       ['#eee', '#6fd67a'],
+                    duration:     400,
+                    wrpClass:     'circles-wrp',
+                    textClass:    'circles-text',
+                    styleWrapper: true,
+                    styleText:    true
+                })
+                temp2=temp;
                 }
-                if (hum!=hum2) {
-                    Circles.create({
-                        id:           'task-hum',
-                        radius:       75,
-                        value:        hum,
-                        tstart:       hum2,
-                        maxValue:     100,
-                        width:        7,
-                        text:         function(value){return value + '';},
-                        colors:       ['#eee', '#6fd67a'],
-                        duration:     400,
-                        wrpClass:     'circles-wrp',
-                        textClass:    'circles-text',
-                        styleWrapper: true,
-                        styleText:    true
-                    })
-                    hum2=hum;
+        if (hum!=hum2) {
+             Circles.create({
+                    id:           'task-hum',
+                    radius:       75,
+                    value:        hum,
+                    tstart:       hum2,
+                    maxValue:     100,
+                    width:        7,
+                    text:         function(value){return value + '';},
+                    colors:       ['#eee', '#6fd67a'],
+                    duration:     400,
+                    wrpClass:     'circles-wrp',
+                    textClass:    'circles-text',
+                    styleWrapper: true,
+                    styleText:    true
+                })
+                hum2=hum;
                 }
-                if (lux!=lux2) {
-                    Circles.create({
-                        id:           'task-lux',
-                        radius:       75,
-                        value:        lux,
-                        tstart:       lux2,
-                        maxValue:     1500,
-                        width:        7,
-                        text:         function(value){return value + '';},
-                        colors:       ['#eee', '#6fd67a'],
-                        duration:     400,
-                        wrpClass:     'circles-wrp',
-                        textClass:    'circles-text',
-                        styleWrapper: true,
-                        styleText:    true
-                    })
-                    lux2=lux;
+        if (lux!=lux2) {
+            Circles.create({
+                    id:           'task-lux',
+                    radius:       75,
+                    value:        lux,
+                    tstart:       lux2,
+                    maxValue:     1500,
+                    width:        7,
+                    text:         function(value){return value + '';},
+                    colors:       ['#eee', '#6fd67a'],
+                    duration:     400,
+                    wrpClass:     'circles-wrp',
+                    textClass:    'circles-text',
+                    styleWrapper: true,
+                    styleText:    true
+                })
+                lux2=lux;
                 }
-            }
-        }
+        }}
 
         if(topic=="slt_agro21/adata/id_0001")
         {
-            const obj = JSON.parse(r_message.payloadString);
-            if (us_location in obj)
-            {
-                console.log("sdad 44")
-                var e = "amois=obj."+us_location+"."+us_farm+".amois";
-                var f = "atemp=obj."+us_location+"."+us_farm+".atemp";
-                var g = "ahum=obj."+us_location+"."+us_farm+".ahum";
-                var h = "alux=obj."+us_location+"."+us_farm+".alux";
-                eval(e);
-                eval(f);
-                eval(g);
-                eval(h);
-                document.getElementById("amois").innerHTML =amois;
-                document.getElementById("atemp").innerHTML =atemp;
-                document.getElementById("ahum").innerHTML =ahum;
-                document.getElementById("alux").innerHTML =alux;
-            }
+        const obj = JSON.parse(r_message.payloadString);
+        if (0.001>Math.abs((us_location[0]-obj.location[0])) && 0.001>Math.abs((us_location[1]-obj.location[1])))
+        {
+            amois=obj.amois;
+            atemp=obj.atemp;
+            ahum=obj.ahum;
+            alux=obj.alux;
+            document.getElementById("amois").innerHTML =amois;
+            document.getElementById("atemp").innerHTML =atemp;
+            document.getElementById("ahum").innerHTML =ahum;
+            document.getElementById("alux").innerHTML =alux;
+        }
 
         }
 
         if(topic=="slt_agro21/ntime/id_0001")
         {
-            const obj = JSON.parse(r_message.payloadString);
-            document.getElementById("ntime").innerHTML =obj.ntime;
+        const obj = JSON.parse(r_message.payloadString);
+        document.getElementById("ntime").innerHTML =obj.ntime;
         }
-    }
+        }
 
     function onConnected(recon,url){
     console.log(" in onConnected " +reconn);
@@ -194,7 +185,6 @@
       }
 
     function MQTTconnect() {
-    us_location=document.mainForm.city.value;
     console.log("connecting to "+ host +" "+ port);
     var x=Math.floor(Math.random() * 10000); 
     var cname="controlform-"+x;
@@ -234,3 +224,4 @@
         mqtt.send(message);
         return false;
     }
+

@@ -1,7 +1,6 @@
 <?php
     include('session.php');
-    // include_once 'config.php';
-    // $result = mysqli_query($db,"SELECT * FROM user WHERE userID = 'user001'");
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -14,13 +13,18 @@
   </script>
   <script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
   </script>
+  <!-- card js -->
+  <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
-  <link rel="apple-touch-icon" sizes="76x76" href="./logo1.png">
-  <link rel="icon" type="image/png" href="./logo1.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="assets/img/logo1.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    Smart Farming Dashboard by SLT DigitalLab
-  </title>
+
+   <!-- Mapbox    -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+  <!-- map end -->
+  <title>SmartAgro | Dashboard</title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 
   <!--     Fonts and icons     -->
@@ -38,42 +42,25 @@
 
 <body class="dark-edition" onload="MQTTconnect()">
 
-<style>
-  .selopt{
-    background-color: #384F66;
-    width: 90%;
-    border: none;
-    padding: 4%;
-    color: #aaaaaa;
-  }
-  .srchbtn{
-    background-color: #E36464;
-    width: 40%;
-    margin-top: 15px;
-    padding: 8px;
-    border: none;
-    color: #ffffff;
-  }
-</style>
 
   <div class="wrapper ">
-    <div class="sidebar" data-color="purple" data-background-color="black" data-image="assets/img/sidebar-2.jpg">
+    <div class="sidebar" data-color="purple" data-background-color="black" data-image="assets/img/1.jpg">
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
         Tip 2: you can also add an image using data-image tag
     -->
-      <div class="logo">
-        <a href="https://www.sltdigitallab.lk/" class="simple-text logo-normal">
-          <img src="slt.png" alt="logo" width="220">
+      <div class="logo"><a href="https://www.sltdigitallab.lk/" class="simple-text logo-normal">
+          <img src="assets/img/logo.png" alt="logo" width="180">
         </a>
-
         <h5 style="margin-left: 25%; color: white;">
           <?php
             echo $_SESSION['login_username']
           ?>
         </h5>
       </div>
+
+        
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item active">
@@ -83,18 +70,12 @@
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="map.html">
-              <i class="material-icons">location_ons</i>
-              <p>Maps</p>
-
+            <a class="nav-link" href="">
+              <i class="material-icons">notifications</i>
+              <p>Notifications</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="createFarm.php">
-              <i class="material-icons">house</i>
-              <p>Add A New Farm</p>
-            </a>
-          </li>
+          
         </ul>
       </div>
     </div>
@@ -104,86 +85,27 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
         <div class="container-fluid">
           <div class="navbar-wrapper">
+            <h3 style="font-family: 'Montserrat', sans-serif; color: white; margin-left:20px; ">
+                SMART AGRO Dashboard
+            </h3>
 
-
-              <form id="mainForm" name="mainForm">
-                <div style="display:flex;">
-      
-                  <div class="select" tabindex="1" style="margin-left:5%;">
-                      <!-- <input class="selectopt" name="city" type="radio" id="opt1" value="lc_001" checked>
-                      <label for="opt1" class="option">
-                        Location
-                      </label>
-                       -->
-                       
-                      <select name="city" id="location" value="" class="selopt">
-                        <option value="">Select Location</option>
-                        <?php
-
-                          include "config.php"; // Using database connection file here
-
-                          $records = mysqli_query($db,"SELECT * FROM location WHERE userID = 'user001'"); // fetch data from database
-
-                          while($data = mysqli_fetch_array($records))
-                          {
-                        ?> 
-                        <option value="<?php echo $data['locID']; ?>"><?php echo $data['city']; ?></option>
-                        <!-- <option value="opel">Opel</option>
-                        <option value="audi">Audi</option> -->
-                        <?php
-                          }
-                        ?>
-                      </select>
-
-                      <?php mysqli_close($db); // Close connection ?>
-
-                        <!-- <input class="selectopt" name="city" type="radio" id="opt2" value="lc_002">
-                        <label for="opt2" class="option">Hatton</label> -->
-
-                      <!-- <input class="selectopt" name="city" type="radio" id="opt3" value="lc_003">
-                      <label for="opt3" class="option">Nuwara Eliya</label>
-                      <input class="selectopt" name="city" type="radio" id="opt4" value="lc_004">
-                      <label for="opt4" class="option">Jaffna</label>
-                      <input class="selectopt" name="city" type="radio" id="opt5" value="lc_005">
-                      <label for="opt5" class="option">Colombo</label> -->
-                  </div>
-                  <div class="select" tabindex="1" style="margin-left:0%;">
-                      <select name="farm" id="farm" value="Farm" class="selopt">
-                        <option value="">Select Farm</option>
-                        <?php
-
-                          include "config.php"; // Using database connection file here
-
-                          $records2 = mysqli_query($db,"SELECT * FROM farm WHERE userID = 'user001'"); // fetch data from database
-
-                          while($data2 = mysqli_fetch_array($records2))
-                          {
-                        ?> 
-                        <option value="fm_00"><?php echo $data2['farmId']; ?></option>
-                        <!-- <option value="opel">Opel</option>
-                        <option value="audi">Audi</option> -->
-                        <?php
-                          }
-                        ?>
-                      </select>
-                      <!-- <input class="selectopt" name="city" type="radio" id="opt1" value="lc_001" checked>
-                      <label for="opt1" class="option">
-                        Farm
-                      </label>
-                      <input class="selectopt" name="city" type="radio" id="opt2" value="lc_002">
-                      <label for="opt2" class="option">Hatton</label>
-                      <input class="selectopt" name="city" type="radio" id="opt3" value="lc_003">
-                      <label for="opt3" class="option">Nuwara Eliya</label>
-                      <input class="selectopt" name="city" type="radio" id="opt4" value="lc_004">
-                      <label for="opt4" class="option">Jaffna</label>
-                      <input class="selectopt" name="city" type="radio" id="opt5" value="lc_005">
-                      <label for="opt5" class="option">Colombo</label> -->
-                  </div>
-
-                  <button class="srchbtn">Check Details</button>
-                </div>
-              </form>
+              <!-- <form id="mainForm" name="mainForm">
+              <div class="select" tabindex="1">
+                  <input class="selectopt" name="city" type="radio" id="opt1" value='lc_001' checked>
+                  <label for="opt1" class="option">Kandy</label>
+                  <input class="selectopt" name="city" type="radio" id="opt2" value='lc_002'>
+                  <label for="opt2" class="option">Hatton</label>
+                  <input class="selectopt" name="city" type="radio" id="opt3" value='lc_003'>
+                  <label for="opt3" class="option">Nuwara Eliya</label>
+                  <input class="selectopt" name="city" type="radio" id="opt4" value='lc_004'>
+                  <label for="opt4" class="option">Jaffna</label>
+                  <input class="selectopt" name="city" type="radio" id="opt5" value='lc_005'>
+                  <label for="opt5" class="option">Colombo</label>
+              </div>
+              </form> -->
           </div>
+
+
 
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
@@ -210,6 +132,7 @@
                     Some Actions
                   </p>
                 </a>
+                
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -228,7 +151,7 @@
       </nav>
       <!-- End Navbar -->
 
-      <div class="content">
+      <div class="content" id="mainpage">
         <div class="container-fluid">
 
           <div class="row">
@@ -303,15 +226,26 @@
                     <div id="task-hum" class="chart-circle "></div>
                 </div>
                 <div class="card-footer">  
-                  <div class="stats">
+                  <div id="mYdiv" class="stats">
                     <i class="material-icons">functions</i> Average :&nbsp; <p id="ahum"> 7.0</p><small>kg<sup>2</sup></small>
                   </div>
+
                 </div>
               </div>
             </div>
           </div>
                       
 
+            <div class="row">
+               <div class="col-md-12">
+                <div class="card card-info bg-info-gradient">
+                  <div class="card-body">
+                    <h4> Select your Loaction</h4>
+                     <div id="map"></div>
+                  </div>
+                </div>
+             </div>
+           </div>
 
           <div class="row">
             <div class="col-xl-4 col-lg-12">
@@ -387,6 +321,7 @@
               <div class="card card-info bg-info-gradient">
                 <div class="card-body">
                   <h4 class="mb-1 fw-bold">Tasks Progress</h4>
+
                   <div id="task-complete" class="chart-circle mt-4 mb-3"></div>
                 </div>
               </div>
@@ -395,6 +330,8 @@
               <div class="card card-info bg-info-gradient">
                 <div class="card-body">
                   <h4 class="mb-1 fw-bold">Tasks Progress</h4>
+
+                    
 
 
                   <div id="task-complete" class="chart-circle mt-4 mb-3"></div>
@@ -405,6 +342,8 @@
 
         </div>
       </div>
+      
+
       <footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">
@@ -444,6 +383,7 @@
       </script>
     </div>
   </div>
+
  
   <!--   Core JS Files   -->
   <script src="assets/js/core/jquery.min.js"></script>
@@ -453,8 +393,7 @@
   <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
-   <!-- Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  
   <!-- Chartist JS -->
   <script src="assets/js/plugins/chartist.min.js"></script>
   <!--  Notifications Plugin    -->
@@ -468,7 +407,7 @@
   <!-- Chart Circle -->
   <script src="assets/js/plugin/chart-circle/circles.min.js"></script>
   <script src="assets/js/index.js"></script>
-
+  <script src="assets/js/map.js"></script>
   
   <script>
     $(document).ready(function() {

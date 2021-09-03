@@ -1,3 +1,8 @@
+<?php
+    include('session.php');
+
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -32,6 +37,30 @@
 
 <body class="dark-edition" onload="MQTTconnect()">
 
+<style>
+  .selopt{
+    background-color: #384F66;
+    width: 90%;
+    border: none;
+    padding: 4%;
+    color: #aaaaaa;
+  }
+  .srchbtn{
+    background-color: #E36464;
+    width: 40%;
+    margin-top: 15px;
+    padding: 8px;
+    border: none;
+    color: #ffffff;
+  }
+  .indicator{
+    border:none;
+    background-color: #B22222;
+    color: #ffffff;
+    padding: 5px 10px 5px 10px;
+    width: 100%;
+  }
+</style>
 
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="assets/img/sidebar-2.jpg">
@@ -40,9 +69,17 @@
 
         Tip 2: you can also add an image using data-image tag
     -->
-      <div class="logo"><a href="https://www.sltdigitallab.lk/" class="simple-text logo-normal">
+      <div class="logo">
+        <a href="https://www.sltdigitallab.lk/" class="simple-text logo-normal">
           <img src="slt.png" alt="logo" width="220">
-        </a></div>
+        </a>
+
+        <h5 style="margin-left: 25%; color: white;">
+          <?php
+            echo $_SESSION['login_username']
+          ?>
+        </h5>
+      </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item active">
@@ -52,16 +89,16 @@
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./map.html">
+            <a class="nav-link" href="map.html">
               <i class="material-icons">location_ons</i>
               <p>Maps</p>
 
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./notifications.html">
-              <i class="material-icons">notifications</i>
-              <p>Notifications</p>
+            <a class="nav-link" href="createFarm.php">
+              <i class="material-icons">house</i>
+              <p>Add A New Farm</p>
             </a>
           </li>
         </ul>
@@ -75,20 +112,54 @@
           <div class="navbar-wrapper">
 
 
-              <form id="mainForm" name="mainForm">
-              <div class="select" tabindex="1">
-                  <input class="selectopt" name="city" type="radio" id="opt1" value="lc_001" checked>
-                  <label for="opt1" class="option">Kandy</label>
-                  <input class="selectopt" name="city" type="radio" id="opt2" value="lc_002">
-                  <label for="opt2" class="option">Hatton</label>
-                  <input class="selectopt" name="city" type="radio" id="opt3" value="lc_003">
-                  <label for="opt3" class="option">Nuwara Eliya</label>
-                  <input class="selectopt" name="city" type="radio" id="opt4" value="lc_004">
-                  <label for="opt4" class="option">Jaffna</label>
-                  <input class="selectopt" name="city" type="radio" id="opt5" value="lc_005">
-                  <label for="opt5" class="option">Colombo</label>
-              </div>
-              </form>
+              <!-- <form id="mainForm" name="mainForm">
+                <div style="display:flex;">
+      
+                  <div class="select" tabindex="1" style="margin-left:5%;">
+                       
+                      <select name="city" id="location" value="" class="selopt">
+                        <option value="">Select Location</option>
+                        <?php
+                          include "config.php"; // Using database connection file here
+                          $records = mysqli_query($db,"SELECT * FROM location WHERE userID = 'user001'"); // fetch data from database
+                          while($data = mysqli_fetch_array($records))
+                          {
+                        ?> 
+                        <option value="<?php echo $data['locID']; ?>"><?php echo $data['city']; ?></option>
+                        
+                        <?php
+                          }
+                        ?>
+                      </select>
+
+                      <?php mysqli_close($db); // Close connection ?>
+
+                        
+                  </div>
+                  <div class="select" tabindex="1" style="margin-left:0%;">
+                      <select name="farm" id="farm" value="Farm" class="selopt">
+                        <option value="">Select Farm</option>
+                        <?php
+
+                          include "config.php"; // Using database connection file here
+
+                          $records2 = mysqli_query($db,"SELECT * FROM farm WHERE userID = 'user001'"); // fetch data from database
+
+                          while($data2 = mysqli_fetch_array($records2))
+                          {
+                        ?> 
+                        <option value="fm_00"><?php echo $data2['farmId']; ?></option>
+                        
+                        <?php
+                          }
+                        ?>
+                      </select>
+                      
+                  </div>
+
+                  <button class="srchbtn">Check Details</button>
+                </div>
+              </form> -->
           </div>
 
 
@@ -116,21 +187,17 @@
                     Some Actions
                   </p>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="javascript:void(0)">Mike John responded to your email</a>
-                  <a class="dropdown-item" href="javascript:void(0)">You have 5 new tasks</a>
-                  <a class="dropdown-item" href="javascript:void(0)">You're now friend with Andrew</a>
-                  <a class="dropdown-item" href="javascript:void(0)">Another Notification</a>
-                  <a class="dropdown-item" href="javascript:void(0)">Another One</a>
-                </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
+                <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">person</i>
                   <p class="d-lg-none d-md-block">
                     Account
                   </p>
                 </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="logout.php">Log out</a>
+                </div>
               </li>
             </ul>
           </div>
@@ -149,16 +216,18 @@
                     <i class="material-icons">thermostat</i>
                   </div>
                   <p class="card-category">Temprature</p>
-                  <h3 class="card-title" id="temp">31.0
-                    <small>C</small>
+                  <h3 class="card-title"><span id="temp"></span><small>&nbsp; c</small>
                   </h3>
                 </div>
                 <div class="center">
+                    <div>
+                      <button id="indicator-temp" class="indicator">Senser Down</button>
+                    </div>
                     <div id="task-temp" class="chart-circle "></div>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
-                    <i class="material-icons">functions</i> Average : <p id=""> 30.0</p>
+                    <i class="material-icons">functions</i> Average :&nbsp; <p id="atemp"> 30.0</p><small>c</small>
                   </div>
                 </div>
               </div>
@@ -170,14 +239,17 @@
                     <i class="material-icons">water_drop</i>
                   </div>
                   <p class="card-category">Moisture</p>
-                  <h3 class="card-title">85.0</h3>
+                  <h3 class="card-title"><span id="mois"></span><small>g/m<sup>3</sup></small></h3>
                 </div>
                  <div class="center">
+                    <div>
+                      <button  id="indicator-mois" class="indicator"></button>
+                    </div>
                     <div id="task-mois" class="chart-circle "></div>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
-                    <i class="material-icons">functions</i> Average : <p> 95.0</p>
+                    <i class="material-icons">functions</i> Average :&nbsp; <p id="amois"> 95.0</p><small>g/m<sup>3</sup></small>
                   </div>
                 </div>
               </div>
@@ -189,14 +261,17 @@
                     <i class="material-icons">wb_sunny</i>
                   </div>
                   <p class="card-category">Light (Lux)</p>
-                  <h3 class="card-title">175.0</h3>
+                  <h3 class="card-title"><span id="lux"></span><small>lx</small></h3>
                 </div>
                <div class="center">
+                    <div>
+                      <button  id="indicator-lux" class="indicator"></button>
+                    </div>
                     <div id="task-lux" class="chart-circle "></div>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
-                   <i class="material-icons">functions</i> Average : <p> 200.0</p>
+                   <i class="material-icons">functions</i> Average :&nbsp; <p id="alux"> 200.0</p><small>lx</small>
                   </div>
                 </div>
               </div>
@@ -208,14 +283,17 @@
                     <i class="material-icons">water_drop</i>
                   </div>
                   <p class="card-category">Humidity</p>
-                  <h3 class="card-title">95.0</h3>
+                  <h3 class="card-title" ><span id="hum"></span><small>kg<sup>2</sup></small></h3>
                 </div>
                 <div class="center">
+                    <div>
+                      <button  id="indicator-hum" class="indicator"></button>
+                    </div>
                     <div id="task-hum" class="chart-circle "></div>
                 </div>
                 <div class="card-footer">  
                   <div class="stats">
-                    <i class="material-icons">functions</i> Average : <p> 7.0</p>
+                    <i class="material-icons">functions</i> Average :&nbsp; <p id="ahum"> 7.0</p><small>kg<sup>2</sup></small>
                   </div>
                 </div>
               </div>

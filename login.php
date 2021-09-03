@@ -37,19 +37,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SmartAgro | Login</title>
+    <link rel="icon" type="image/png" href="assets/img/logo1.png">
     <link rel="stylesheet" href="./assets/css/login.css">
 </head>
 <body>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
+</style> 
+
     <div class="login-wrap">
         
         <div class="login-html">
             <div class="logo-img">
                 <center>
-                    <img src="./slt.png" alt="" style="width: 200px; margin-bottom: 5%; ">
-                    <!-- <h1>Smart Agro</h1> -->
+                    <img src="assets/img/logo.png" alt="" style="width: 200px; margin-top:0;">
+                    <h3 style="font-family: 'Montserrat', sans-serif; color: white; margin-top:5px; margin-bottom: 10%;">
+                        SMART AGRO
+                    </h3>
                 </center>
-            </div>
+            </div> 
 
             <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
             <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
@@ -72,10 +79,6 @@
                         <div class="group">
                             <input type="submit" class="button" value="Sign In">
                         </div>
-                        <!-- <div class="hr"></div>
-                        <div class="foot-lnk">
-                            <a href="#forgot">Forgot Password?</a>
-                        </div> -->
                     </div>
                 </form>
                 <form action="register.php" method="post" enctype="multipart/form-data">
@@ -99,10 +102,6 @@
                         <div class="group">
                             <input type="submit" class="button" value="Sign Up">
                         </div>
-                        <!-- <div class="hr"></div>
-                        <div class="foot-lnk">
-                            <label for="tab-1">Already Member?</a>
-                        </div> -->
                     </div>
                 </form>
             </div>
