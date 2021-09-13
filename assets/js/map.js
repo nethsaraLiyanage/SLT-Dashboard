@@ -5,7 +5,8 @@ style: 'mapbox://styles/mapbox/outdoors-v11',
 center: [80.6337,7.2906],
 zoom: 8
 });
- 
+
+
 var new_location = [80.51251167765263, 7.389156875109475]; 
 var all_location = [[80.41251167765263, 7.989156875109475],[80.41261402335014,6.989160901082065],[80.41251167765263, 6.989156875109475],[80.481167765263, 6.989156875109475],[102.84434543000104,36.04349457849256]];
 
@@ -83,11 +84,14 @@ for (let i = 0; i < all_location.length; i++) {
 		'icon-size': 1}
 
 		});
+		us_location = all_location[0];
+		map.setLayoutProperty('circle0','icon-image','y_select');		
 	}
 
 
 	for (let i = 0; i < all_location.length; i++) {
 				var setzoom =20;
+
 				// Center the map on the coordinates of any clicked circle from the 'circle' layer.
 				map.on('click', 'circle'+i, (e) => {
 				if (map.getZoom()>20){setzoom=map.getZoom();}
@@ -109,12 +113,12 @@ for (let i = 0; i < all_location.length; i++) {
 
 				// Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
 				map.on('mouseenter', 'circle'+i, () => {
-					map.getCanvas().style.cursor = 'pointer';
+				map.getCanvas().style.cursor = 'pointer';
 				});
 				 
 				// Change it back to a pointer when it leaves.
 				map.on('mouseleave', 'circle'+i, () => {
-					map.getCanvas().style.cursor = '';
+				map.getCanvas().style.cursor = '';
 				
 				});
 
@@ -129,7 +133,8 @@ for (let i = 0; i < all_location.length; i++) {
 				 
 				});
 	}
-
+		console.log(`Selected coordinate: ${us_location}`);
+		
 });
 
 // map.scrollZoom.disable();
@@ -145,7 +150,10 @@ function mouseOut() {
   var setzoom=8;
   $('html').addClass('perfect-scrollbar-on');
   document.getElementById("mYdiv").scrollIntoView();
-  if (map.getZoom()<8){setzoom=map.getZoom();}
-  map.flyTo({zoom:setzoom});
+  // var y = window.scrollY;
+  // console.log(y);
+  // window.scrollTo(y,y)
+  // if (map.getZoom()<8){setzoom=map.getZoom();}
+  // map.flyTo({zoom:setzoom});
 }
 

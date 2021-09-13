@@ -45,19 +45,22 @@
         setTimeout(MQTTconnect, reconnectTimeout);
         }
     function onMessageArrived(r_message){
-        out_msg="Message received "+r_message.payloadString+"<br>";
+        var value_er=0;
+        out_msg="Message received "+r_message.payloadString;
         out_msg=out_msg+"Message received Topic "+r_message.destinationName;
-        //console.log("Message received ",r_message.payloadString);
-        console.log(out_msg);
+        console.log("Message received ",r_message.payloadString);
         document.getElementById("messages").innerHTML =out_msg;
         var topic=r_message.destinationName;
-        if(topic=="slt_agro21/data/id_0001")
+        if(topic=="slt_agro21/data/id_0001" && IsJsonString(r_message.payloadString))
         {
         const obj = JSON.parse(r_message.payloadString);
-        console.log(obj.location);
-        console.log(us_location);
-
-        if (0.001>Math.abs((us_location[0]-obj.location[0])) && 0.001>Math.abs((us_location[1]-obj.location[1])))
+        console.log(`coming coordinate: ${obj.location}`);
+        var st_location = obj.location;
+        var ar_location = st_location.split(",");
+        ar_location = ar_location.map((i) => Number(i));
+        console.log(`get coordinate: ${ar_location}`);
+        if (0<=obj.hum && 0<=obj.lux && 0<=obj.temp){value_er=1;}
+        if (value_er==1 && err_distance >Math.abs((us_location[0]-ar_location[0])) && err_distance >Math.abs((us_location[1]-ar_location[1])))
         {  
         console.log("ok");   
         mois=obj.mois;
@@ -143,34 +146,41 @@
                 })
                 lux2=lux;
                 }
-        }}
-
-        if(topic=="slt_agro21/adata/id_0001")
-        {
-        const obj = JSON.parse(r_message.payloadString);
-        if (0.001>Math.abs((us_location[0]-obj.location[0])) && 0.001>Math.abs((us_location[1]-obj.location[1])))
-        {
-            amois=obj.amois;
-            atemp=obj.atemp;
-            ahum=obj.ahum;
-            alux=obj.alux;
-            document.getElementById("amois").innerHTML =amois;
-            document.getElementById("atemp").innerHTML =atemp;
-            document.getElementById("ahum").innerHTML =ahum;
-            document.getElementById("alux").innerHTML =alux;
+            }
+        value_er=0;
         }
 
+        if(topic=="slt_agro21/adata/id_0001" && IsJsonString(r_message.payloadString))
+        {
+            const obj = JSON.parse(r_message.payloadString);
+            var st_location = obj.location;
+            var ar_location = st_location.split(",");
+            ar_location = ar_location.map((i) => Number(i));
+            console.log(ar_location);
+            if (0<=obj.hum && 0<=obj.lux && 0<=obj.temp){value_er=1;}
+            if (value_er==1 && err_distance>Math.abs((us_location[0]-ar_location[0])) && err_distance>Math.abs((us_location[1]-ar_location[1])))
+            {
+                amois=obj.amois;
+                atemp=obj.atemp;
+                ahum=obj.ahum;
+                alux=obj.alux;
+                document.getElementById("amois").innerHTML =amois;
+                document.getElementById("atemp").innerHTML =atemp;
+                document.getElementById("ahum").innerHTML =ahum;
+                document.getElementById("alux").innerHTML =alux;
+            }
+            value_er=0;
         }
 
         if(topic=="slt_agro21/ntime/id_0001")
         {
-        const obj = JSON.parse(r_message.payloadString);
-        document.getElementById("ntime").innerHTML =obj.ntime;
+            const obj = JSON.parse(r_message.payloadString);
+            document.getElementById("ntime").innerHTML =obj.ntime;
         }
-        }
+    }
 
     function onConnected(recon,url){
-    console.log(" in onConnected " +reconn);
+        console.log(" in onConnected " +reconn);
     }
     function onConnect() {
       // Once a connection has been made, make a subscription and send a message.
@@ -205,7 +215,7 @@
         // mqtt.onConnected = onConnected;
 
     mqtt.connect(options);
-    return false;
+        return false;
     }
 
     function send_message(msg,topic){
@@ -225,3 +235,11 @@
         return false;
     }
 
+function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
