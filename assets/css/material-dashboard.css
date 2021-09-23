@@ -20,7 +20,7 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+  /*box-sizing: border-box;*/
 }
 
 html {
@@ -16880,7 +16880,7 @@ thead.thead-inverse th,
 
 body {
   background-color: #eee;
-  color: #3C4858;
+  color: black;
   font-weight: 300;
   overflow: hidden;
 }
@@ -16925,7 +16925,7 @@ a .material-icons {
 label {
   font-size: 14px;
   line-height: 1.42857;
-  color: #AAAAAA;
+  color: black;
   font-weight: 400;
 }
 

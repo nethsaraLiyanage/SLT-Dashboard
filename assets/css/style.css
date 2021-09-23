@@ -48,10 +48,36 @@ border-radius: 3px;
 
 .mapboxgl-popup {
 max-width: 200px;
+
 }
 .mapboxgl-popup-content {
-text-align: center;
+background: #313e45;
+text-align: left;
 font-family: 'Open Sans', sans-serif;
+width: 300px;
+height: 200px;  
+border-radius: 25px;
+padding: 0px;
+    
+}
+
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
+  border-bottom-color: #313e45;
+}
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+  border-top-color: #313e45;
+}
+.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip{
+  border-bottom-color:#313e45;
+}
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip{
+ border-bottom-color:#313e45;
+}
+.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip{
+  border-top-color:#313e45;
+}
+.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip{
+ border-top-color:#313e45;
 }
 
 /*side nav bar for map*/
@@ -161,7 +187,7 @@ input {
 input:checked + label {
   order: 1;
   z-index:2;
-  background:#1a7bc9;
+  /*background:#1a7bc9;*/
   border-top:none;
   position:relative;
 }
@@ -172,7 +198,7 @@ input:checked + label:after {
   height: 0; 
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 5px solid white;
+  /*border-top: 5px solid white;*/
   position:absolute;
   right:10px;
   top:calc(50% - 2.5px);
@@ -204,4 +230,166 @@ padding-bottom: 10px;}
   .chart-circle .circles-text {
     font-size: 25px !important; }
 
-    
+
+
+/*pop up week temp*/
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,900,300);
+
+
+.widget-container {
+  width: 300px;
+  height: 200px;
+  display: block;
+  color: #fff;
+  background-color: #313e45;
+  border-radius: 25px;
+/*   border: 5px solid #eceff1; */
+  margin: 0 auto;
+}
+
+.flex-container{
+ display: flex;
+/* border-style: solid;
+ border-color: #263238;*/
+
+}
+.flex-box{
+  flex:24%;
+  padding: 10px 0 0 10px;
+}
+.flex-box2{
+  flex:28%;
+  padding: 10px 0 0 10px;
+}
+
+/* Widget 4 Quarter Division here */
+
+.top-left {
+  height: 40%;
+  width: 50%;
+  /*   background-color:red; */
+  padding: 22px 0 0 20px;
+  display: inline-block;
+}
+
+.top-right {
+  height: 64%;
+  width: 50%;
+  /*   background-color: blue; */
+  float: right;
+  padding: 20px 12px 0 6px;
+}
+
+.bottom-left {
+  height: 40%;
+  width: 100%;
+  /*   background-color:orange; */
+  float: left;
+  margin: 0;
+  
+}
+
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
+}
+.p1{
+  font-size:12px;
+}
+
+
+/* Top-left Div CSS */
+
+#city {
+  font-weight: 400;
+  font-size: 14px;
+}
+
+#day {
+  font-weight: 700;
+  font-size: 20px;
+  margin-top: 5px;
+margin-left: 10px;
+}
+
+
+
+
+
+.top-left > a {
+  text-decoration: none;
+  color: white;
+}
+
+.top-left > a:hover {
+  color: #b0bec5;
+}
+
+
+/* Top-Right Div CSS */
+
+#weather-status {
+  font-size: 18px;
+  font-weight: 300;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.top-right > img {
+  width: 50px;
+  height: 50px;
+  display: block;
+  margin: 15px auto 0 auto;
+}
+
+/* Bottom-left CSS */
+
+#temperature,
+.celsius,
+#temp-divider,
+#fahrenheit {
+  display: inline;
+  vertical-align: middle;
+}
+
+#temperature {
+  font-size: 60px;
+  font-weight: 800;
+  margin-right: 5px;
+}
+
+.celsius {
+  margin-right: 2px;
+}
+
+#fahrenheit {
+  margin-right: 0px;
+  color: #b0bec5;
+  margin-left:-3px;
+}
+
+.celsius,
+#temp-divider,
+#fahrenheit {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.celsius:hover,
+#fahrenheit:hover {
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+

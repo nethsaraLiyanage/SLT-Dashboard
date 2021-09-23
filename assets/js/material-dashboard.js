@@ -1,13 +1,13 @@
 /*!
 
  =========================================================
- * Material Dashboard Dark Edition - v2.1.0
+ * SLT AGro
  =========================================================
 
- * Product Page: https://www.creative-tim.com/product/material-dashboard-dark
- * Copyright 2019 Creative Tim (http://www.creative-tim.com)
+ * Product Page: https://www.sltmobitel.com
+ * Copyright 2019 SLTAgro (http://www.sltmobitel.com)
 
- * Coded by www.creative-tim.com
+ * Coded by www.sltmobitel.com
 
  =========================================================
 
@@ -177,12 +177,13 @@ md = {
   initDashboardPageCharts: function() {
 
     if ($('#dailySalesChart').length != 0 || $('#completedTasksChart').length != 0 || $('#websiteViewsChart').length != 0) {
-      /* ----------==========     Daily Sales Chart initialization    ==========---------- */
+      /* ----------==========     Mois Chart    ==========---------- */
 
       dataDailySalesChart = {
-        labels: ['6','7', '8', '9', '10', '11', '12', '1PM'],
+        // labels: [cmois[0][0],cmois[0][1], cmois[0][2], cmois[0][3], cmois[0][4], cmois[0][5], cmois[0][6], cmois[0][7]],
+        labels: ["1","2", "3", "4", "5", "6", "7", "8"],
         series: [
-          [22, 17, 37, 57, 0, 85, 88, 78]
+          [cmois[1][7], cmois[1][6], cmois[1][5], cmois[1][4], cmois[1][3], cmois[1][2], cmois[1][1], cmois[1][0]]
         ]
       };
 
@@ -191,7 +192,7 @@ md = {
           tension: 0
         }),
         low: 0,
-        high: 100, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+        high: 105, // SLTAgro: we recommend you to set the high sa the biggest value + something for a better look
         chartPadding: {
           top: 0,
           right: 0,
@@ -205,12 +206,13 @@ md = {
       md.startAnimationForLineChart(dailySalesChart);
 
 
-      /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
+      /* ----------==========     Light Chart    ==========---------- */
 
       dataCompletedTasksChart = {
-        labels: ['12p', '3p', '6p', '9p', '12p', '3a', '6a', '9a'],
+        // labels: [clux[0][0], clux[0][1], clux[0][2], clux[0][3], clux[0][4], clux[0][5], clux[0][6], clux[0][7]],
+        labels: ["1","2", "3", "4", "5", "6", "7", "8"],
         series: [
-          [230, 750, 450, 300, 280, 240, 200, 190]
+          [clux[1][7], clux[1][6], clux[1][5], clux[1][4], clux[1][3], clux[1][2], clux[1][1], clux[1][0]]
         ]
       };
 
@@ -219,7 +221,7 @@ md = {
           tension: 0
         }),
         low: 0,
-        high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+        high: 1600, // SLTAgro: we recommend you to set the high sa the biggest value + something for a better look
         chartPadding: {
           top: 0,
           right: 0,
@@ -234,12 +236,13 @@ md = {
       md.startAnimationForLineChart(completedTasksChart);
 
 
-      /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
+      /* ----------==========     Temp Chart   ==========---------- */
 
       var dataWebsiteViewsChart = {
-        labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+        // labels: [ctemp[0][0], ctemp[0][1], ctemp[0][2], ctemp[0][3], ctemp[0][4], ctemp[0][5], ctemp[0][6], ctemp[0][7], ctemp[0][8], ctemp[0][9], ctemp[0][10], ctemp[0][11]],
+        labels: ["1","2", "3", "4", "5", "6", "7", "8","9","10","11","12"],
         series: [
-          [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
+          [ctemp[1][11], ctemp[1][10], ctemp[1][9], ctemp[1][8], ctemp[1][7], ctemp[1][6], ctemp[1][5], ctemp[1][4], ctemp[1][3], ctemp[1][2], ctemp[1][1], ctemp[1][0]]
 
         ]
       };
@@ -248,7 +251,7 @@ md = {
           showGrid: false
         },
         low: 0,
-        high: 1000,
+        high: 60,
         chartPadding: {
           top: 0,
           right: 5,
