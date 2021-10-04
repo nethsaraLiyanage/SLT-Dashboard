@@ -1,8 +1,8 @@
  var connected_flag=0    
     var mqtt;
     var reconnectTimeout = 2000;
-    var host="broker.hivemq.com";
-    // var host="124.43.130.94";
+    // var host="broker.hivemq.com";
+    var host="222.165.186.100";
     var port=8000;
     // var port=1880;
 
@@ -33,10 +33,6 @@
 // }
         
 
-
-    
-
-    
     function onConnectionLost(){
     console.log("connection lost");
     document.getElementById("status").innerHTML = "Connection Lost";
