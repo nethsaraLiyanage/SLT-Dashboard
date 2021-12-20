@@ -7,46 +7,46 @@ zoom: 8
 });
 
 
-var new_location = [79.90245608082853,6.738995286668619]; 
-var all_location = [[79.90245608082853,6.738995286668619],[80.41261402335014,6.989160901082065],[80.41251167765263, 6.989156875109475],[80.481167765263, 6.989156875109475],[102.84434543000104,36.04349457849256]];
-var all_values =[[1,1,1,1,'Panadura','Carrots'],[2,2,2,2,'Kithulgala','Carrots'],[3,3,3,3,'Kithulgala','Rose flower'],[4,4,4,4,'Ginigathhena','Beets'],[5,5,5,5,'China','Carrots']];
+var id_user = "id_0002";
+var id_location =["lc_001","lc_002","lc_003","lc_004","lc_005"]
+var all_location = [[80.59597974307613, 7.2620587947486595],[80.41261402335014,6.989160901082065],[80.41251167765263, 6.989156875109475],[80.481167765263, 6.989156875109475],[102.84434543000104,36.04349457849256]];
+var all_details =[['Peradeniya','Carrots'],['Kithulgala','Carrots'],['Kithulgala','Rose flower'],['Ginigathhena','Beets'],['China','Carrots']];
+var all_values =[[1,1,1,1,1,1,1,1,1,1],[2,2,2,2,2,2,2,2,2,2],[3,3,3,3,3,3,3,3,3,3],[4,4,4,4,4,4,4,4,4,4],[5,5,5,5,5,5,5,5,5,5]];
+var all_average =[[1,1,1,1,1,1,1,1,1,1,0],[2,2,2,2,2,2,2,2,2,2,0],[3,3,3,3,3,3,3,3,3,3,0],[4,4,4,4,4,4,4,4,4,4,0],[5,5,5,5,5,5,5,5,5,5,0]];
 var m_mois =0;
 var m_temp =0;
 var m_hum =0;
 var m_lux =0;
+var m_ph =0;
+var m_sec =0;
+var m_rain =0;
+var m_sn =0;
+var m_sp =0;
+var m_sk =0;
 var m_location='';
 var m_farm='';
 
-function newCoordinate(){
-	
-	var count =0;
+
+
+
+
+function asign_val(title){
 	for (let i = 0; i < all_location.length; i++) {
-	if(0.001<Math.abs((all_location[i][0]-new_location[0])) && 0.001<Math.abs((all_location[i][1]-new_location[1])))
+	if(id_location[i]==title)
 		 {
-		   count = count+1;
-		   console.log(count);
-		 }
-	}
-	console.log(all_location.length);
-	if (count==all_location.length){
-		all_location[all_location.length+1]=new_location ;
-		console.log(all_location);
-	}
-}
-
-
-
-function asign_val(ecordinate){
-	for (let i = 0; i < all_location.length; i++) {
-	if(0.00001>Math.abs((all_location[i][0]-ecordinate[0])) && 0.00001>Math.abs((all_location[i][1]-ecordinate[1])))
-		 {
-		  console.log(ecordinate);
+		 console.log(title);
 		  m_mois = all_values[i][0];
 		  m_temp = all_values[i][1];
 		  m_hum = all_values[i][2];
 		  m_lux = all_values[i][3];
-		  m_location = all_values[i][4];
-		  m_farm = all_values[i][5];
+		  m_ph = all_values[i][4];
+		  m_sec = all_values[i][5];
+		  m_rain = all_values[i][6];
+		  m_sn = all_values[i][7];
+		  m_sp = all_values[i][8];
+		  m_sk = all_values[i][9];
+		  m_location = all_details[i][0];
+		  m_farm = all_details[i][1];
 		 }
 	}
 }
@@ -87,7 +87,7 @@ for (let i = 0; i < all_location.length; i++) {
 		'type': 'Point',
 		'coordinates': all_location[i] },
 		'properties': {
-		'title': 'lc_000'+i}
+		'title': id_location[i]}
 		},
 
 
@@ -107,9 +107,8 @@ for (let i = 0; i < all_location.length; i++) {
 		'icon-size': 1}
 
 		});
-		us_location = all_location[0];
 		map.setLayoutProperty('circle0','icon-image','y_select');		
-		map.flyTo({center: us_location});
+		map.flyTo({center: all_location[0]});
 	}
 
 
@@ -120,7 +119,7 @@ for (let i = 0; i < all_location.length; i++) {
 				map.on('click', 'circle'+i, (e) => {
 				if (map.getZoom()>20){setzoom=map.getZoom();}
 				map.flyTo({center: map.getSource(e.features[0].source)._data.features[0].geometry.coordinates,offset:[-80,-100], zoom:setzoom});
-				us_location = map.getSource(e.features[0].source)._data.features[0].geometry.coordinates;
+				us_location = id_location[i];
 				map.setLayoutProperty('circle'+i,'icon-image','y_select');
 				// map.setLayoutProperty('circle'+i,'icon-allow-overlap' ,true);
 				console.log(`Selected Location: ${us_location}`);
@@ -138,8 +137,7 @@ for (let i = 0; i < all_location.length; i++) {
 				// Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
 				map.on('mouseenter', 'circle'+i, (e) => {
 				map.getCanvas().style.cursor = 'pointer';
-				asign_val(map.getSource(e.features[0].source)._data.features[0].geometry.coordinates);
-				console.log(map.getSource(e.features[0].source)._data.features[0].geometry.coordinates);
+				asign_val(map.getSource(e.features[0].source)._data.features[0].properties.title);
 				popup.setLngLat(map.getSource(e.features[0].source)._data.features[0].geometry.coordinates).setHTML(`
 					<div class="widget-container">
 					    <div class="top-left">
@@ -153,12 +151,12 @@ for (let i = 0; i < all_location.length; i++) {
 					    <div class="bottom-left">
 					      <div class="flex-container">
 					        <div class="flex-box">
-					          <p class="p1">Moisture</p>
+					          <p class="p1">S-Moisture</p>
 					            <h3 class="celsius">`+m_mois+`</h3>
 					            <h3 id="fahrenheit"><small>g/m<sup>3</sup></small></h3>
 					        </div>
 					        <div class="flex-box">
-					            <p class="p1">Temprature</p>
+					            <p class="p1">S-Temprature</p>
 					            <h3 class="celsius">`+m_temp+`</h3>
 					            <h3 id="fahrenheit"><small>c</small></h3>
 					        </div>
@@ -168,9 +166,9 @@ for (let i = 0; i < all_location.length; i++) {
 					            <h3 id="fahrenheit"><small>kg<sup>2</sup></small></h3>
 					        </div>
 					        <div class="flex-box2">
-					            <p class="p1">Light</p>
+					            <p class="p1">Temprature</p>
 					            <h3 class="celsius">`+m_lux+`</h3>
-					            <h3 id="fahrenheit"><small>lx</small></h3>
+					            <h3 id="fahrenheit"><small>c</small></h3>
 					        </div>
 					      </div>
 					    </div>
@@ -212,7 +210,7 @@ for (let i = 0; i < all_location.length; i++) {
 								})
 				
 	}
-		console.log(`Selected coordinate: ${us_location}`);
+		// console.log(`Selected coordinate: ${us_location}`);
 		
 });
 

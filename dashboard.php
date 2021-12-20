@@ -8,6 +8,8 @@
 
 <head>
   <meta charset="utf-8" />
+  <script src="assets/js/chart.js"></script>
+  <script src="assets/js/alerting.js"></script>
   <meta name="viewport" cbltent="width=device-width, initial-scale=1.0, user-scalable=no">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript">
   </script>
@@ -65,21 +67,21 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item active">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="#sensors">
               <i class="material-icons">dashboard</i>
-              <p>Dashboard</p>
+              <p>Sensors</p>
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="">
-              <i class="material-icons">notifications</i>
-              <p>Notifications</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="">
+            <a class="nav-link" href="#map-div">
               <i class="material-icons">location_ons</i>
-              <p>Locations</p>
+              <p>Map</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#history">
+              <i class="material-icons"><h3 >H</h3></i>
+              <p>History</p>
             </a>
           </li>
           <li class="nav-item ">
@@ -113,20 +115,6 @@
               Fazenda Dashboard
             </h3>
 
-              <!-- <form id="mainForm" name="mainForm">
-              <div class="select" tabindex="1">
-                  <input class="selectopt" name="city" type="radio" id="opt1" value='lc_001' checked>
-                  <label for="opt1" class="option">Kandy</label>
-                  <input class="selectopt" name="city" type="radio" id="opt2" value='lc_002'>
-                  <label for="opt2" class="option">Hatton</label>
-                  <input class="selectopt" name="city" type="radio" id="opt3" value='lc_003'>
-                  <label for="opt3" class="option">Nuwara Eliya</label>
-                  <input class="selectopt" name="city" type="radio" id="opt4" value='lc_004'>
-                  <label for="opt4" class="option">Jaffna</label>
-                  <input class="selectopt" name="city" type="radio" id="opt5" value='lc_005'>
-                  <label for="opt5" class="option">Colombo</label>
-              </div>
-              </form> -->
           </div>
 
 
@@ -178,7 +166,9 @@
       <div class="content" id="mainpage">
         <div class="container-fluid">
 
-          <div class="row">
+        <hr id="sensors">
+        <h3 style="margin-left: 20px;margin-top: 20px; color:white;">Your Sensors</h3>
+        <div class="row" id="sensors">
             <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
               <div class="card card-stats">
                 <div class="card-header card-header-warning card-header-icon">
@@ -186,7 +176,7 @@
                     <i class="material-icons">thermostat</i>
                   </div>
                   <p class="card-category">Soil Temprature</p>
-                  <h3 class="card-title"><span id="temp"></span><small>&nbsp; c</small>
+                  <h3 class="card-title"><span id="temp"></span><small>&nbsp;c</small>
                   </h3>
                 </div>
                 <div class="center">
@@ -203,17 +193,17 @@
               <div class="card card-stats">
                 <div class="card-header card-header-success card-header-icon">
                   <div class="card-icon">
-                    <i class="material-icons">water_drop</i>
+                    <i class="material-icons">water</i>
                   </div>
                   <p class="card-category">Soil Moisture</p>
-                  <h3 class="card-title"><span id="mois"></span><small>g/m<sup>3</sup></small></h3>
+                  <h3 class="card-title"><span id="mois"></span><small>%</small></h3>
                 </div>
                  <div class="center">
                     <div id="task-mois" class="chart-circle "></div>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
-                    <i class="material-icons">functions</i> Average :&nbsp; <p id="amois"> 95.0</p><small>g/m<sup>3</sup></small>
+                    <i class="material-icons">functions</i> Average :&nbsp; <p id="amois"> 95.0</p><small>%</small>
                   </div>
                 </div>
               </div>
@@ -224,15 +214,15 @@
                   <div class="card-icon">
                     <i class="material-icons">wb_sunny</i>
                   </div>
-                  <p class="card-category">Light (Lux)</p>
-                  <h3 class="card-title"><span id="lux"></span><small>lx</small></h3>
+                  <p class="card-category">Air Temprature</p>
+                  <h3 class="card-title"><span id="lux"></span><small>c</small></h3>
                 </div>
                <div class="center">
-                    <div id="task-lux" class="chart-circle "></div>
+                    <div id="task-t" class="chart-circle "></div>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
-                   <i class="material-icons">functions</i> Average :&nbsp; <p id="alux"> 200.0</p><small>lx</small>
+                   <i class="material-icons">functions</i> Average :&nbsp; <p id="alux"> 30.0</p><small>c</small>
                   </div>
                 </div>
               </div>
@@ -243,90 +233,213 @@
                   <div class="card-icon">
                     <i class="material-icons">water_drop</i>
                   </div>
-                  <p class="card-category">Humidity</p>
-                  <h3 class="card-title" ><span id="hum"></span><small>kg<sup>2</sup></small></h3>
+                  <p class="card-category">Air Humidity</p>
+                  <h3 class="card-title" ><span id="hum"></span><small>%</small></h3>
                 </div>
                 <div class="center">
                     <div id="task-hum" class="chart-circle "></div>
                 </div>
                 <div class="card-footer">  
-                  <div id="mYdiv" class="stats">
-                    <i class="material-icons">functions</i> Average :&nbsp; <p id="ahum"> 7.0</p><small>kg<sup>2</sup></small>
+                  <div class="stats" >
+                    <i class="material-icons">functions</i> Average :&nbsp; <p id="ahum"> 7.0</p><small>%</small>
                   </div>
 
                 </div>
               </div>
             </div>
+
+            <!--line 2-->
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                  <div class="card-icon">
+                    <b><h3 style='padding: 10px;'>ph</h3></b>
+                    <!-- <i class="material-icons">ph</i> -->
+                  </div>
+                  <p class="card-category">Soil PH</p>
+                  <h3 class="card-title"><span id="ph"></span>
+                </div>
+                <div class="center">
+                    <div id="task-ph" class="chart-circle "></div>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">functions</i> Average :&nbsp; <p id="aph"> 30.0</p><small></small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">lightning</i>
+                  </div>
+                  <p class="card-category">Soil Electrical Con.</p>
+                  <h3 class="card-title"><span id="sec"></span><small> mS/cm</small></h3>
+                </div>
+                 <div class="center">
+                    <div id="task-sec" class="chart-circle "></div>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">functions</i> Average :&nbsp; <p id="asec"> 95.0</p><small>mS/cm</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Soil Temperature- c
+            Soil moisture-%
+            Air Temperature-c
+            Air Humidity-%
+            PH- PH value
+            Soil Electrical Conductivity- mS/cm
+            Rain Fall- value*0.2 mm
+            Soil nitrogen - ppm
+            Soil Phosphorous -ppm
+            Soil Potassium -ppm -->
+            
+            <!-- <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">water_drop</i>
+                  </div>
+                  <p class="card-category">Rain Fall</p>
+                  <h3 class="card-title"><span id="rain"></span><small>mm</small></h3>
+                </div>
+                 <div class="center">
+                    <div id="task-rain" class="chart-circle "></div>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">functions</i> Average :&nbsp; <p id="arain"> 95.0</p><small>mm</small>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+            
+          
+          
+          <!--line 3-->
+          <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                  <div class="card-icon">
+                    <b><h3 style='padding: 10px;'>N</h3></b>
+                    <!-- <i class="material-icons">ph</i> -->
+                  </div>
+                  <p class="card-category">Soil Nitrogen</p>
+                  <h3 class="card-title"><span id="sn"></span><small> ppm</small></h3>
+                </div>
+                <div class="center">
+                    <div id="task-sn" class="chart-circle "></div>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">functions</i> Average :&nbsp; <p id="asn"> 30.0</p><small>ppm</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                  <div class="card-icon">
+                    <b><h3 style='padding: 10px;'>P</h3></b>
+                    <!-- <i class="material-icons">ph</i> -->
+                  </div>
+                  <p class="card-category">Soil Phosphorus</p>
+                  <h3 class="card-title"><span id="sp"></span><small> ppm</small></h3>
+                </div>
+                 <div class="center">
+                    <div id="task-sp" class="chart-circle "></div>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">functions</i> Average :&nbsp; <p id="asp"> 95.0</p><small>ppm</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                  <div class="card-icon">
+                    <b><h3 style='padding: 10px;'>K</h3></b>
+                    <!-- <i class="material-icons">ph</i> -->
+                  </div>
+                  <p class="card-category">Soil Potassium</p>
+                  <h3 class="card-title"><span id="sk"></span><small> ppm</small></h3>
+                </div>
+                 <div class="center">
+                    <div id="task-sk" class="chart-circle "></div>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">functions</i> Average :&nbsp; <p id="ask"> 95.0</p><small>ppm</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            
           </div>
-                      
-
-            <div class="row" id="maps">
-               <div class="col-md-12" id="mYdiv">
-                <div class="card card-info bg-info-gradient" style="margin-top:20px ;">
-                  <div class="card-body" style="padding: 0rem 0px;">
-                     <div id="map"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          <div class="row">
-            <div class="col-xl-4 col-lg-12">
-              <div class="card card-chart">
-                <div class="card-header card-header-success">
-                  <div class="ct-chart" id="dailySalesChart"></div>
-                </div>
-                <div class="card-body">
-                  <h4 class="card-title">Moisture Analysis</h4>
-                  <p class="card-category">
-                    <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> Recent Data Analysis</p>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">access_time</i> updated 4 minutes ago
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-4 col-lg-12">
-              <div class="card card-chart">
-                <div class="card-header card-header-warning">
-                  <div class="ct-chart" id="websiteViewsChart"></div>
-                </div>
-                <div class="card-body">
-                  <h4 class="card-title">Temprature Analysis</h4>
-                  <p class="card-category">Recent Data Analysis</p>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">access_time</i> data collect 4 minutes ago
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-4 col-lg-12">
-              <div class="card card-chart">
-                <div class="card-header card-header-danger">
-                  <div class="ct-chart" id="completedTasksChart"></div>
-                </div>
-                <div class="card-body">
-                  <h4 class="card-title">Light Analysis</h4>
-                  <p class="card-category">Recent Data Analysis</p>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">access_time</i> data collect 4 minutes ago
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
 
           
+            <hr id="map-div">
+            <div >
+              <h3 style="margin-left: 20px;margin-top: 20px; color:white;">Your Farms</h3>
+              <div class="row" id="maps">
+                <div class="col-md-12" id="mYdiv">
+                  <div class="card card-info bg-info-gradient" style="margin-top:20px ;">
+                    <div class="card-body" style="padding: 0rem 0px;">
+                      <div id="map"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <hr id="history">
+            <h3 style="margin-left: 20px;margin-top: 50px; margin-bottom: 20px; color:white;" >Sensor History</h3>
+
           <div class="row">
+            <script>
+              // console.log("its");
+              // console.log(msg_obj);
+
+            var length = Object.keys(msg_obj).length;
+            for (let i = 0; i < length; i++) {  
+              document.write(`
+                    <div class="col-xl-4 col-lg-12">
+                      <div class="card card-chart">
+                        <div class="card-header card-header-danger">
+                          <div class="ct-chart" id="draw_chart`+i+`"></div>
+                        </div>
+                        <div class="card-body">
+                          <h4 class="card-title" id="chart_title`+i+`">Light Analysis</h4>
+                          <p class="card-category">Recent Data Analysis</p>
+                        </div>
+                        <div class="card-footer">
+                          <div class="stats">
+                            <i class="material-icons">access_time</i> updated &nbsp;<span id="update_t`+i+`">4</span>&nbsp;   ago
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  `);
+            }
+            </script>
+
+          </div>
+
+          
+          <div class="row" >
             <div class="col-md-4">
               <div class="card card-info bg-info-gradient">
                 <div class="card-body">
@@ -431,6 +544,8 @@
   <script src="assets/js/plugin/chart-circle/circles.min.js"></script>
   <script src="assets/js/index.js"></script>
   <script src="assets/js/map.js"></script>
+  <script type = "text/javascript" src="assets/js/chart.js"></script>
+  <script type = "text/javascript" src="assets/js/alerting.js"></script>
   
   <script>
     $(document).ready(function() {
@@ -606,4 +721,4 @@
 
 </body>
 
-</html>
+</html> 

@@ -62,8 +62,9 @@ padding: 0px;
 }
 
 .mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
+
   border-bottom-color: #313e45;
-}
+  }
 .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
   border-top-color: #313e45;
 }
@@ -238,7 +239,7 @@ padding-bottom: 10px;}
 
 
 .widget-container {
-  width: 300px;
+  width: 320px;
   height: 200px;
   display: block;
   color: #fff;
@@ -346,6 +347,10 @@ margin-left: 10px;
   display: block;
   margin: 15px auto 0 auto;
 }
+
+
+
+
 
 /* Bottom-left CSS */
 
