@@ -102,7 +102,7 @@ function onMessageArrived(r_message){
 
         if (us_location==id_location[i])
         { 
-        console.log("selected values");   
+        // console.log("selected values");   
         mois=all_values[i][0];
         temp=all_values[i][1];
         hum=all_values[i][2];
@@ -351,29 +351,26 @@ mqtt.subscribe("slt_agro21/data/id_0002/lc_001");
   }
 
 function MQTTconnect() {
-console.log("connecting to "+ host +" "+ port);
-var x=Math.floor(Math.random() * 10000); 
-var cname="controlform-"+x;
-mqtt = new Paho.MQTT.Client(host,port,cname);
-// document.write("connecting to "+ host);
-var options = {
-    timeout: 3,
-    onSuccess: onConnect,
-    onFailure: onFailure,
-    userName: uname,
-    password: pword
-  
- };
+    AutoRefresh();
+    console.log("connecting to "+ host +" "+ port);
+    var x=Math.floor(Math.random() * 10000); 
+    var cname="controlform-"+x;
+    mqtt = new Paho.MQTT.Client(host,port,cname);
+    // document.write("connecting to "+ host);
+    var options = {
+        timeout: 3,
+        onSuccess: onConnect,
+        onFailure: onFailure,
+        userName: uname,
+        password: pword
+    
+    };
+        mqtt.onConnectionLost = onConnectionLost;
+        mqtt.onMessageArrived = onMessageArrived;
+        // mqtt.onConnected = onConnected;
 
-
-
-
-    mqtt.onConnectionLost = onConnectionLost;
-    mqtt.onMessageArrived = onMessageArrived;
-    // mqtt.onConnected = onConnected;
-
-mqtt.connect(options);
-return false;
+    mqtt.connect(options);
+    return false;
 }
 
 function send_message(){
@@ -400,15 +397,18 @@ function send_message(){
 }
 
 function IsJsonString(str) {
-try {
-    JSON.parse(str);
-} catch (e) {
-    return false;
-}
-return true;
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
 }
 
-
+function AutoRefresh() {
+    setTimeout("location.reload(true);", 60000);
+}
+  
 
 
 // Values for Charts
@@ -419,52 +419,52 @@ var clux =[['5','6','7','8','9','10','11','12'],[200,310,410,650,210,50,500,1200
 
 
 function update_charts(){
-var d = new Date();
-var n = d.getSeconds();
+    var d = new Date();
+    var n = d.getSeconds();
 
-for (let i = 0; i < cmois[1].length; i++) {
-    if(i < cmois[1].length-1){
-     cmois[1][i]=cmois[1][i+1];   
-     cmois[0][i]=cmois[0][i+1]; 
+    for (let i = 0; i < cmois[1].length; i++) {
+        if(i < cmois[1].length-1){
+        cmois[1][i]=cmois[1][i+1];   
+        cmois[0][i]=cmois[0][i+1]; 
+        }
+        if (i==cmois[1].length-1) {
+        cmois[1][i]=mois;   
+        cmois[0][i]=n;  
+        }
     }
-    if (i==cmois[1].length-1) {
-     cmois[1][i]=mois;   
-     cmois[0][i]=n;  
+    for (let i = 0; i < ctemp[1].length; i++) {
+        if(i < ctemp[1].length-1){
+        ctemp[1][i]=ctemp[1][i+1];   
+        ctemp[0][i]=ctemp[0][i+1]; 
+        }
+        if (i==ctemp[1].length-1) {
+        ctemp[1][i]=temp;   
+        ctemp[0][i]=n;  
+        }
     }
-}
-for (let i = 0; i < ctemp[1].length; i++) {
-    if(i < ctemp[1].length-1){
-     ctemp[1][i]=ctemp[1][i+1];   
-     ctemp[0][i]=ctemp[0][i+1]; 
+    for (let i = 0; i < clux[1].length; i++) {
+        if(i < clux[1].length-1){
+        clux[1][i]=clux[1][i+1]; 
+        clux[0][i]=clux[0][i+1];   
+        }
+        if (i==clux[1].length-1) {
+        clux[1][i]=lux;   
+        clux[0][i]=n; 
+        }
     }
-    if (i==ctemp[1].length-1) {
-     ctemp[1][i]=temp;   
-     ctemp[0][i]=n;  
+    md.initDashboardPageCharts();
     }
-}
-for (let i = 0; i < clux[1].length; i++) {
-    if(i < clux[1].length-1){
-     clux[1][i]=clux[1][i+1]; 
-     clux[0][i]=clux[0][i+1];   
-    }
-    if (i==clux[1].length-1) {
-     clux[1][i]=lux;   
-     clux[0][i]=n; 
-    }
-}
-md.initDashboardPageCharts();
-}
 
 
-var update_time =0;
-setInterval(function(){ 
-update_time=update_time+1;
-if(update_time==6){
-    update_time=0;
-    update_charts();
-    }
-document.getElementById("update_t1").innerHTML = update_time +' minutes';
-document.getElementById("update_t2").innerHTML = update_time +' minutes';
-document.getElementById("update_t3").innerHTML = update_time +' minutes'; 
+    var update_time =0;
+    setInterval(function(){ 
+    update_time=update_time+1;
+    if(update_time==6){
+        update_time=0;
+        update_charts();
+        }
+    document.getElementById("update_t1").innerHTML = update_time +' minutes';
+    document.getElementById("update_t2").innerHTML = update_time +' minutes';
+    document.getElementById("update_t3").innerHTML = update_time +' minutes'; 
 
 }, 60000);

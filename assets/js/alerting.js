@@ -10,8 +10,8 @@ $.ajax({
   
 var getLatestData = function(obj2){
 
-    console.log('-----------data 2 from db-----------------');
-    console.log(obj2);
+    // console.log('-----------data 2 from db-----------------');
+    // console.log(obj2);
     
     var tempArr = [];
     var humArr = [];
@@ -43,34 +43,61 @@ var getLatestData = function(obj2){
     // console.log('-----------TempArr-----------------');
     // console.log(tempArr);
 
-    validateData('Temprature',tempArr,40,10);
+    validateData('Temprature',tempArr,40,30);
     validateData('Humidity',humArr,120,0);
     validateData('Soil Temprature',soilTempArr,120,0);
     validateData('Soil Moisture',soilMoisArr,60,0);
     validateData('Soil Electrical Conductivity',secArr,60,0);
-    validateData('Soil PH',sphArr,9.5,3.5);
-    validateData('Soil Nitrogen',snArr,9.5,3.5);
-    validateData('Soil Phosphorus',spArr,9.5,3.5);
-    validateData('Soil Potassium',skArr,9.5,3.5);
-    validateData('B',bArr,9.5,3.5);
-    validateData('SI',siArr,9.5,3.5);
+    validateData('Soil PH',sphArr,9.5,0);
+    validateData('Soil Nitrogen',snArr,9.5,0);
+    validateData('Soil Phosphorus',spArr,9.5,0);
+    validateData('Soil Potassium',skArr,9.5,0);
+    validateData('B',bArr,9.5,0);
+    validateData('SI',siArr,9.5,0);
 };
 
 var validateData = function(checkElement,checkArray, high, low){
 
-  const isAboveThreshold = (currentValue) => currentValue < high;
+  const isAboveThreshold = (currentValue) => currentValue > high;
   const isBelowThreshold = (currentValue) => currentValue < low;
   var aboveStatus = checkArray.every(isAboveThreshold);
   var belowStatus = checkArray.every(isBelowThreshold);
 
-  var status;
+  var status = '';
   if(aboveStatus == true || belowStatus == true){
     if(aboveStatus == true){
       status = 'too high';
     }else if(belowStatus == true){
       status = 'too low';
     }
-    console.log("Please check!"+checkElement+" is "+status+" for the palntation.")
-  }
+    // msg="Please check! " +checkElement+" is "+status+" for the palntation.";
+    var msg="test123";
 
-}    
+    // console.log(msg);
+    
+    var settings = {
+      "url": "http://smeapps.mobitel.lk:8585/EnterpriseSMSV3/esmsproxyURL.php",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+        "Authorization": "Basic ZXNtc3Vzcl90YWY6dXRZJCU5MXF0",
+        "Content-Type": "application/json"
+      },
+      "data": JSON.stringify({
+        "username": "esmsusr_taf",
+        "password": "utY$%91qt",
+        "from": "AgriAlert",
+        "to": "0710451452",
+        "text": msg,
+        "mesageType": 1
+      }),
+    };
+    
+    $.ajax(settings).done(function (response) {
+      console.log(response);
+    });
+  }
+  aboveStatus =  false;
+  belowStatus = false;
+  status = '';
+}     

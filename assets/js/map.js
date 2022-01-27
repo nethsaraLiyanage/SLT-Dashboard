@@ -6,13 +6,12 @@ center: [80.6337,7.2906],
 zoom: 8
 });
 
-
 var id_user = "id_0002";
 var id_location =["lc_001","lc_002","lc_003","lc_004","lc_005"]
-var all_location = [[80.59597974307613, 7.2620587947486595],[80.41261402335014,6.989160901082065],[80.41251167765263, 6.989156875109475],[80.481167765263, 6.989156875109475],[102.84434543000104,36.04349457849256]];
-var all_details =[['Peradeniya','Carrots'],['Kithulgala','Carrots'],['Kithulgala','Rose flower'],['Ginigathhena','Beets'],['China','Carrots']];
-var all_values =[[1,1,1,1,1,1,1,1,1,1],[2,2,2,2,2,2,2,2,2,2],[3,3,3,3,3,3,3,3,3,3],[4,4,4,4,4,4,4,4,4,4],[5,5,5,5,5,5,5,5,5,5]];
-var all_average =[[1,1,1,1,1,1,1,1,1,1,0],[2,2,2,2,2,2,2,2,2,2,0],[3,3,3,3,3,3,3,3,3,3,0],[4,4,4,4,4,4,4,4,4,4,0],[5,5,5,5,5,5,5,5,5,5,0]];
+var all_location = [[80.59597974307613, 7.2620587947486595]];
+var all_details =[['Peradeniya','Agro Faculty']];
+var all_values =[[1,1,1,1,1,1,1,1,1,1]];
+var all_average =[[1,1,1,1,1,1,1,1,1,1,0]];
 var m_mois =0;
 var m_temp =0;
 var m_hum =0;
@@ -25,10 +24,6 @@ var m_sp =0;
 var m_sk =0;
 var m_location='';
 var m_farm='';
-
-
-
-
 
 function asign_val(title){
 	for (let i = 0; i < all_location.length; i++) {

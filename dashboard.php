@@ -55,11 +55,11 @@
       <div class="logo"><a href="https://www.sltdigitallab.lk/" class="simple-text logo-normal">
           <img src="assets/img/logo.png" alt="logo" width="180">
         </a>
-        <h5 style="margin-left: 35%; margin-top: 5%; color: white;">
-          <!-- <?php
+        <h5 style="margin-left: 25%; margin-top: 5%; color: white;">
+          <?php
             echo $_SESSION['login_username']
-          ?> -->
-          User 001
+          ?>
+          <!-- User 001 -->
         </h5>
       </div>
 
@@ -84,7 +84,7 @@
               <p>History</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <!-- <li class="nav-item ">
             <a class="nav-link" href="">
               <i class="material-icons">person</i>
               <p>User Management</p>
@@ -95,9 +95,9 @@
               <i class="material-icons">laptop</i>
               <p>Device Management</p>
             </a>
-          </li>
+          </li> -->
         </ul>
-        <li class="nav-item" style="margin-top: 70%; margin-left: 10%">
+        <li class="nav-item" style="margin-top: 95%; margin-left: 10%">
             <a class="nav-link" href="">
               <i class="material-icons"></i>
               <p>Dashboard V.01 (2021)</p>
@@ -128,15 +128,15 @@
           </button>
           <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href="javascript:void(0)">
                   <i class="material-icons">dashboard</i>
                   <p class="d-lg-none d-md-block">
                     Stats
                   </p>
                 </a>
-              </li>
-              <li class="nav-item dropdown">
+              </li> -->
+              <!-- <li class="nav-item dropdown">
                 <a class="nav-link" href="javscript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">notifications</i>
                   <span class="notification">5</span>
@@ -144,8 +144,8 @@
                     Some Actions
                   </p>
                 </a>
-                
-              </li>
+              </li> -->
+
               <li class="nav-item">
                 <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">person</i>
@@ -167,7 +167,7 @@
         <div class="container-fluid">
 
         <hr id="sensors">
-        <h3 style="margin-left: 20px;margin-top: 20px; color:white;">Your Sensors</h3>
+        <h3 style="margin-left: 20px;margin-top: 20px; color:white;">Your Sensors (Real-Time)</h3>
         <div class="row" id="sensors">
             <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
               <div class="card card-stats">
@@ -406,9 +406,14 @@
 
 
             <hr id="history">
-            <h3 style="margin-left: 20px;margin-top: 50px; margin-bottom: 20px; color:white;" >Sensor History</h3>
+            <h3 style="margin-left: 20px;margin-top: 50px; margin-bottom: 20px; color:white;" id="latestUpdateTime" >Sensor History</h3>
 
           <div class="row">
+                        <!-- <div class="card-footer">
+                          <div class="stats">
+                            <i class="material-icons">access_time</i> <p id="latestUpdate`+i+`">Updated 5 seconds ago </p>
+                          </div>
+                        </div> -->
             <script>
               // console.log("its");
               // console.log(msg_obj);
@@ -416,7 +421,7 @@
             var length = Object.keys(msg_obj).length;
             for (let i = 0; i < length; i++) {  
               document.write(`
-                    <div class="col-xl-4 col-lg-12">
+                    <div class="col-xl-6 col-lg-12">
                       <div class="card card-chart">
                         <div class="card-header card-header-danger">
                           <div class="ct-chart" id="draw_chart`+i+`"></div>
@@ -424,23 +429,39 @@
                         <div class="card-body">
                           <h4 class="card-title" id="chart_title`+i+`">Light Analysis</h4>
                           <p class="card-category">Recent Data Analysis</p>
-                        </div>
-                        <div class="card-footer">
-                          <div class="stats">
-                            <i class="material-icons">access_time</i> updated &nbsp;<span id="update_t`+i+`">4</span>&nbsp;   ago
+                          <div style="margin-left:70%; ">
+                            <button style="width:150px; height:40px; border: 1px solid red; color:red; border-radius: 20px; background:none;">View More</button>
                           </div>
                         </div>
+                        
                       </div>
                     </div>
                   `);
             }
             </script>
 
+            <div class="modal-container" id="modal-opened">
+              <div class="modal">
+
+                <div class="modal__details">
+                  <h1 class="modal__title">Modal Title</h1>
+                  <p class="modal__description">Sentence that will tell user what this modal is for or something.</p>
+                </div>
+
+                <p class="modal__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis ex dicta maiores libero minus obcaecati iste optio, eius labore repellendus.</p>
+
+                <button class="modal__btn">Button &rarr;</button>
+
+                <a href="#modal-closed" class="link-2"></a>
+
+              </div>
+            </div>
+
           </div>
 
           
           <div class="row" >
-            <div class="col-md-4">
+            <div class="col">
               <div class="card card-info bg-info-gradient">
                 <div class="card-body">
                   <h4 class="mb-1 fw-bold">Tasks Progress</h4>
@@ -453,27 +474,8 @@
               </div>
             </div>
 
-            <div class="col-md-4">
-              <div class="card card-info bg-info-gradient">
-                <div class="card-body">
-                  <h4 class="mb-1 fw-bold">Tasks Progress</h4>
-
-                  <div id="task-complete" class="chart-circle mt-4 mb-3"></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card card-info bg-info-gradient">
-                <div class="card-body">
-                  <h4 class="mb-1 fw-bold">Tasks Progress</h4>
-
-                    
-
-
-                  <div id="task-complete" class="chart-circle mt-4 mb-3"></div>
-                </div>
-              </div>
-            </div>
+            
+            
           </div>
 
         </div>

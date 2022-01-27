@@ -6,7 +6,7 @@
 
     $data = array();
     while($enr = mysqli_fetch_assoc($result)){
-        $a = array($enr['temp'], $enr['hum'], $enr['sTemp'], $enr['sMois'], $enr['sec'], $enr['ph'], $enr['n'], $enr['p'], $enr['k'], $enr['r'], $enr['b'], $enr['si']);
+        $a = array($enr['temp'], $enr['hum'], $enr['sTemp'], $enr['sMois'], $enr['sec'], $enr['ph'], $enr['n'], $enr['p'], $enr['k'], $enr['r'], $enr['b'], $enr['si'], $enr['datetime']);
         array_push($data, $a);
     }
 
